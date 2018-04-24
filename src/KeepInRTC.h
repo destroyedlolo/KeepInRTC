@@ -3,7 +3,7 @@
  * 22/04/2018	First version
  */
 #ifndef KEEPINRTC_H
-#define KEEPINRTC_H	0.0100
+#define KEEPINRTC_H	0.0101
 
 class KeepInRTC {
 	bool RTCvalid;		// Is stored memory valid ?
@@ -24,18 +24,21 @@ public:
 			/* RTCvalid remains invalid in order to let other modules
 			 * to initialise themselves to default values
 			 */
-			this->save();
+			ESP.rtcUserMemoryWrite(0, (uint32_t *)&this->key, sizeof(this->key));
 		}
 
 		this->offset = sizeof( this->key );
 	}
 
+		/* Ask if the RTC is valid
+		 * (in order to detect first run)
+		 */
 	bool isValid( void ){ return RTCvalid; }
 
-	void save( void ){
-		ESP.rtcUserMemoryWrite(0, (uint32_t *)&this->key, sizeof(this->key));
-	}
-
+		/* Reserve some space for our data
+		 * <- s: bytes to reserve
+		 * -> offset for our data
+		 */
 	uint32_t reserveData( uint32_t s ){
 		uint32_t start = this->offset;
 		this->offset += s;
@@ -43,6 +46,7 @@ public:
 		return( start );
 	}
 
+		/* Class to embody data to be stored */
 	class KeepMe {
 		uint32_t *what;
 		uint32_t size;
