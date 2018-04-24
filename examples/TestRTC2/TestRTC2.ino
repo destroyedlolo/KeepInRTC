@@ -39,9 +39,11 @@ void loop( void ){
 	Test tst, tst2;
 
 	if( !kir.isValid() ){
-		Serial.println("First run\nInitialise to default values");
+		Serial.println("First run : Initialise to default values");
 		tst.init();
 		tst2.init(2);
+		Serial.print("Size of stored data : ");
+		Serial.println(kir.getSize());
 	} else {
 		tst.inc();
 		if( tst.get() == tst2.get() ){

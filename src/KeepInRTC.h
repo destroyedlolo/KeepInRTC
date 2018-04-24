@@ -46,6 +46,13 @@ public:
 		return( start );
 	}
 
+		/* Return the amount of stored data
+		 * in bytes
+		 */
+	uint32_t getSize( void ){
+		return this->offset;
+	}
+
 		/* Class to embody data to be stored */
 	class KeepMe {
 		uint32_t *what;
